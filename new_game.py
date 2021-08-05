@@ -3,6 +3,7 @@
 
 import random
 import tkinter
+from functools import partial
 from tkinter import *
 from tkinter import messagebox
 
@@ -28,8 +29,21 @@ def empty_space(row, column):
     return game_board[row][column] == ' '
 
 
-# Creating the gui for the game
+# A window for single player
+def single(board):
+    board.destroy()
+    board = Tk()
+    board.title('Single Player')
 
+
+# A window for multiplayer
+def multi(board):
+    board.destroy()
+    board = Tk()
+    board.title('Multiplayer')
+
+
+# Creating the gui for the game
 def play():
     menu = Tk()
     menu.geometry('250x250')
@@ -37,12 +51,14 @@ def play():
     frame = Frame(menu)
     frame.pack()
 
+    single_game = partial(single, menu)
+    multi_game = partial(multi, menu)
     title = Label(frame, text="Tic Tac Toe")
     title.pack()
 
-    s_player_button = Button(menu, text='Single Player', bg='blue', width=500)
-    mult_player_button = Button(menu, text='Multiplayer', bg='blue', width=500)
-    quit_button = Button(menu, text='Quit', bg='red', width=500)
+    s_player_button = Button(menu, text='Single Player', command=single_game, bg='blue', width=500)
+    mult_player_button = Button(menu, text='Multiplayer', command=multi_game, bg='blue', width=500)
+    quit_button = Button(menu, text='Quit', bg='red', command=menu.quit, width=500)
 
     s_player_button.pack()
     mult_player_button.pack()
